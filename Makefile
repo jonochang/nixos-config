@@ -16,6 +16,9 @@ SSH_OPTIONS=-o PubkeyAuthentication=no -o UserKnownHostsFile=/dev/null -o Strict
 # We need to do some OS switching below.
 UNAME := $(shell uname)
 
+download-nixos:
+	curl -LO https://channels.nixos.org/nixos-25.05/latest-nixos-graphical-aarch64-linux.iso
+
 switch:
 ifeq ($(UNAME), Darwin)
 	NIXPKGS_ALLOW_UNFREE=1 nix build --impure --extra-experimental-features nix-command --extra-experimental-features flakes ".#darwinConfigurations.${NIXNAME}.system"
