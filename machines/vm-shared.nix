@@ -141,7 +141,8 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = true;
-  services.openssh.settings.PermitRootLogin = "no";
+  services.openssh.settings.PermitRootLogin = "yes";
+  services.openssh.settings.AllowAgentForwarding = true;
 
   # Disable flatpak. I don't use any flatpak apps but I do sometimes
   # test them so I keep this enabled.
