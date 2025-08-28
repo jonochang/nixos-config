@@ -22,8 +22,9 @@
     # this, use your own, or toss it. Its typically safe to use a binary cache
     # since the data inside is checksummed.
     settings = {
-      substituters = ["https://mitchellh-nixos-config.cachix.org"];
-      trusted-public-keys = ["mitchellh-nixos-config.cachix.org-1:bjEbXJyLrL1HZZHBbO4QALnI5faYZppzkU4D2s0G8RQ="];
+      trusted-substituters = ["ssh-ng://jono@tsuruhashi" "https://mitchellh-nixos-config.cachix.org" "https://cache.nixos.org/"];
+      trusted-public-keys = ["silverpond:DvvEdyKZvc86cR1o/a+iJxnb7JxMCBzvSTjjEQIY8+g=" "mitchellh-nixos-config.cachix.org-1:bjEbXJyLrL1HZZHBbO4QALnI5faYZppzkU4D2s0G8RQ=" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="];
+      trusted-users = ["jonochang"];
     };
   };
 
