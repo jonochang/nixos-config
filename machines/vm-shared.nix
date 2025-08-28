@@ -42,9 +42,10 @@
 
   # Define your hostname.
   networking.hostName = "dev";
+  networking.nameservers = [ "1.1.1.1" "1.0.0.1" ];
 
   # Set your time zone.
-  time.timeZone = "America/Los_Angeles";
+  time.timeZone = "Australia/Melbourne";
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
