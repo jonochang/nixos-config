@@ -118,8 +118,16 @@
   services.xserver = lib.mkIf (config.specialisation != {}) {
     enable = true;
     xkb.layout = "us";
-    desktopManager.gnome.enable = true;
-    displayManager.gdm.enable = true;
+    dpi = 220;
+    
+    displayManager = {
+      defaultSession = "none+i3";
+      lightdm.enable = true;
+    };
+    
+    windowManager = {
+      i3.enable = true;
+    };
   };
 
   # Some programs need SUID wrappers, can be configured further or are
