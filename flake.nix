@@ -70,7 +70,10 @@
         gh = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.gh;
 
         # Want the latest version of these
-        claude-code = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.claude-code;
+        claude-code = (import inputs.nixpkgs-unstable {
+          inherit (prev) system;
+          config.allowUnfree = true;
+        }).claude-code;
         nushell = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nushell;
 
         ibus = ibus_stable;
