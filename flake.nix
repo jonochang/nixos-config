@@ -51,12 +51,12 @@
     zig.url = "github:mitchellh/zig-overlay";
 
     # Non-flakes
-    theme-bobthefish.url = "github:oh-my-fish/theme-bobthefish/e3b4d4eafc23516e35f162686f08a42edf844e40";
-    theme-bobthefish.flake = false;
-    fish-fzf.url = "github:jethrokuan/fzf/24f4739fc1dffafcc0da3ccfbbd14d9c7d31827a";
-    fish-fzf.flake = false;
-    fish-foreign-env.url = "github:oh-my-fish/plugin-foreign-env/dddd9213272a0ab848d474d0cbde12ad034e65bc";
-    fish-foreign-env.flake = false;
+    # theme-bobthefish.url = "github:oh-my-fish/theme-bobthefish/e3b4d4eafc23516e35f162686f08a42edf844e40";
+    # theme-bobthefish.flake = false;
+    # fish-fzf.url = "github:jethrokuan/fzf/24f4739fc1dffafcc0da3ccfbbd14d9c7d31827a";
+    # fish-fzf.flake = false;
+    # fish-foreign-env.url = "github:oh-my-fish/plugin-foreign-env/dddd9213272a0ab848d474d0cbde12ad034e65bc";
+    # fish-foreign-env.flake = false;
   };
 
   outputs = { self, nixpkgs, home-manager, darwin, ... }@inputs: let
@@ -89,34 +89,34 @@
   in {
     nixosConfigurations.vm-aarch64 = mkSystem "vm-aarch64" {
       system = "aarch64-linux";
-      user   = "mitchellh";
+      user   = "jonochang";
     };
 
-    nixosConfigurations.vm-aarch64-prl = mkSystem "vm-aarch64-prl" rec {
-      system = "aarch64-linux";
-      user   = "mitchellh";
-    };
+    # nixosConfigurations.vm-aarch64-prl = mkSystem "vm-aarch64-prl" rec {
+    #   system = "aarch64-linux";
+    #   user   = "mitchellh";
+    # };
 
-    nixosConfigurations.vm-aarch64-utm = mkSystem "vm-aarch64-utm" rec {
-      system = "aarch64-linux";
-      user   = "mitchellh";
-    };
+    # nixosConfigurations.vm-aarch64-utm = mkSystem "vm-aarch64-utm" rec {
+    #   system = "aarch64-linux";
+    #   user   = "mitchellh";
+    # };
 
-    nixosConfigurations.vm-intel = mkSystem "vm-intel" rec {
-      system = "x86_64-linux";
-      user   = "mitchellh";
-    };
+    # nixosConfigurations.vm-intel = mkSystem "vm-intel" rec {
+    #   system = "x86_64-linux";
+    #   user   = "mitchellh";
+    # };
 
-    nixosConfigurations.wsl = mkSystem "wsl" {
-      system = "x86_64-linux";
-      user   = "mitchellh";
-      wsl    = true;
-    };
+    # nixosConfigurations.wsl = mkSystem "wsl" {
+    #   system = "x86_64-linux";
+    #   user   = "mitchellh";
+    #   wsl    = true;
+    # };
 
-    darwinConfigurations.macbook-pro-m1 = mkSystem "macbook-pro-m1" {
-      system = "aarch64-darwin";
-      user   = "mitchellh";
-      darwin = true;
-    };
+    # darwinConfigurations.macbook-pro-m1 = mkSystem "macbook-pro-m1" {
+    #   system = "aarch64-darwin";
+    #   user   = "mitchellh";
+    #   darwin = true;
+    # };
   };
 }
