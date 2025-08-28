@@ -117,6 +117,10 @@ vm/bootstrap:
 
 # copy our secrets into the VM
 vm/secrets:
+	# AWS credentials
+	rsync -av -e 'ssh $(SSH_OPTIONS)' \
+		--exclude='environment' \
+		$(HOME)/.aws/ $(NIXUSER)@$(NIXADDR):~/.aws
 	# GPG keyring
 	rsync -av -e 'ssh $(SSH_OPTIONS)' \
 		--exclude='.#*' \
