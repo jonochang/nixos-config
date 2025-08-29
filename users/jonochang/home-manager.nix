@@ -254,6 +254,12 @@ in {
     eval \"$(atuin init zsh)\";
     bindkey '^r' _atuin_search_widget
 
+    # Alt + Right Arrow → move forward a word
+    bindkey '^[[1;3C' forward-word
+
+    # Alt + Left Arrow → move backward a word
+    bindkey '^[[1;3D' backward-word
+
     # bind to the up key, which depends on terminal mode
     bindkey '^[[A' _atuin_up_search_widget
 
