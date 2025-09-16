@@ -99,6 +99,7 @@ in {
     #  ];
     #}
     pkgs.claude-code
+    pkgs.gemini-cli
     pkgs.codex
 
     # Node is required for Copilot.vim
