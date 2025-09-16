@@ -14,6 +14,11 @@
       xkb.layout = "us";
       dpi = 220;
 
+      resolutions = [
+        { x = 1920; y = 1440; }
+        { x = 2560; y = 1600; }
+      ];
+
       desktopManager = {
         xterm.enable = false;
         wallpaper.mode = "fill";
