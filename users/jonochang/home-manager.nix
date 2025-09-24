@@ -102,6 +102,8 @@ in {
     pkgs.gemini-cli
     pkgs.codex
 
+    pkgs.git-absorb
+
     # Node is required for Copilot.vim
     pkgs.nodejs
   ] ++ (lib.optionals isDarwin [
