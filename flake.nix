@@ -1,5 +1,5 @@
 {
-  description = "NixOS systems and tools by mitchellh and jonochang";
+  description = "NixOS systems and tools by mitchellh and simon hudson";
 
   inputs = {
     # Pin our primary nixpkgs repository. This is the main nixpkgs repository
@@ -89,7 +89,7 @@
   in {
     nixosConfigurations.vm-aarch64 = mkSystem "vm-aarch64" {
       system = "aarch64-linux";
-      user   = "jonochang";
+      user   = "simon";
     };
 
     # nixosConfigurations.vm-aarch64-prl = mkSystem "vm-aarch64-prl" rec {

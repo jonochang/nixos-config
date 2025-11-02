@@ -22,9 +22,9 @@
     # this, use your own, or toss it. Its typically safe to use a binary cache
     # since the data inside is checksummed.
     settings = {
-      trusted-substituters = ["ssh-ng://jono@tsuruhashi" "https://mitchellh-nixos-config.cachix.org" "https://cache.nixos.org/"];
+      trusted-substituters = ["ssh-ng://simon@tsuruhashi" "https://mitchellh-nixos-config.cachix.org" "https://cache.nixos.org/"];
       trusted-public-keys = ["silverpond:DvvEdyKZvc86cR1o/a+iJxnb7JxMCBzvSTjjEQIY8+g=" "mitchellh-nixos-config.cachix.org-1:bjEbXJyLrL1HZZHBbO4QALnI5faYZppzkU4D2s0G8RQ=" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="];
-      trusted-users = ["jonochang"];
+      trusted-users = ["simon"];
     };
   };
 
@@ -44,6 +44,15 @@
   # Define your hostname.
   networking.hostName = "dev";
   networking.nameservers = [ "1.1.1.1" "1.0.0.1" ];
+
+  networking.hosts = {
+    "10.0.0.120" = [ "minio" ];
+  };
+
+  services.avahi.enable = true;
+  services.avahi.nssmdns4 = true;
+  services.avahi.publish.addresses = true;
+  services.avahi.publish.enable = true;
 
   # Set your time zone.
   time.timeZone = "Australia/Melbourne";
@@ -165,4 +174,13 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "20.09"; # Did you read the comment?
+
+  services.dnsmasq = {
+    enable = true;
+    settings = {
+      listen-address = "0.0.0.0";
+      bind-interfaces = true;
+      address = "/dev.local/172.16.20.128";  # VM's own IP
+    };
+  };
 }

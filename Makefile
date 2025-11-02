@@ -1,13 +1,13 @@
 # Connectivity info for Linux VM
-NIXADDR ?= unset
+NIXADDR ?= dev.local
 NIXPORT ?= 22
-NIXUSER ?= jonochang
+NIXUSER ?= simon
 
 # Get the path to this Makefile and directory
 MAKEFILE_DIR := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 # The name of the nixosConfiguration in the flake
-NIXNAME ?= vm-intel
+NIXNAME ?= vm-aarch64
 
 # SSH options that are used. These aren't meant to be overridden but are
 # reused a lot so we just store them up here.
@@ -121,12 +121,6 @@ vm/secrets:
 	rsync -av -e 'ssh $(SSH_OPTIONS)' \
 		--exclude='environment' \
 		$(HOME)/.aws/ $(NIXUSER)@$(NIXADDR):~/.aws
-	# GPG keyring
-	rsync -av -e 'ssh $(SSH_OPTIONS)' \
-		--exclude='.#*' \
-		--exclude='S.*' \
-		--exclude='*.conf' \
-		$(HOME)/.gnupg/ $(NIXUSER)@$(NIXADDR):~/.gnupg
 	# SSH keys
 	rsync -av -e 'ssh $(SSH_OPTIONS)' \
 		--exclude='environment' \

@@ -7,21 +7,35 @@ let
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
   shellAliases = {
-    ga = "git add";
-    gc = "git commit";
-    gco = "git checkout";
-    gcp = "git cherry-pick";
-    gdiff = "git diff";
-    gl = "git prettylog";
-    gp = "git push";
-    gs = "git status";
-    gt = "git tag";
-
-    jd = "jj desc";
-    jf = "jj git fetch";
-    jn = "jj new";
-    jp = "jj git push";
-    js = "jj st";
+    ll="ls -alF";
+    gs="git status";
+    ga="git add";
+    t="tmux";
+    gb="git branch";
+    gd="git diff";
+    gl="git log";
+    gf="git fetch";
+    gpl="git pull";
+    gps="git push";
+    gc="git commit";
+    gcm="git commit -m";
+    gco="git checkout";
+    gtg="git tag";
+    gst="git stash";
+    gsta="git stash apply";
+    gstp="git stash pop";
+    grb="git rebase";
+    grst="git restore --staged";
+    nv="nvim";
+    vim="nvim";
+    are="ssh t-ares";
+    art="ssh t-artemis";
+    ze="ssh t-zeus";
+    ath="ssh t-athena";
+    di="ssh t-dionysus";
+    ns="nix-shell";
+    hlr="hl-run";
+    hlrs="hl-run rails s";
   } // (if isLinux then {
     # Two decades of using a Mac has made this such a strong memory
     # that I'm just going to keep it consistent.
@@ -67,6 +81,7 @@ in {
     pkgs.atuin
     pkgs.asciinema
     pkgs.bat
+    pkgs.opencode
     pkgs.eza
     pkgs.fd
     pkgs.fzf
@@ -83,6 +98,7 @@ in {
     pkgs.ffmpeg
     pkgs.timg
     pkgs.mpv
+    pkgs.tmux
     pkgs.tokei
     pkgs.tree
     pkgs.watch
@@ -167,42 +183,6 @@ in {
     shellAliases = shellAliases;
   };
 
-  # programs.direnv= {
-  #   enable = true;
-
-  #   config = {
-  #     whitelist = {
-  #       prefix= [
-  #         "$HOME/code/go/src/github.com/hashicorp"
-  #         "$HOME/code/go/src/github.com/mitchellh"
-  #       ];
-
-  #       exact = ["$HOME/.envrc"];
-  #     };
-  #   };
-  # };
-
-  # programs.fish = {
-  #   enable = true;
-  #   shellAliases = shellAliases;
-  #   interactiveShellInit = lib.strings.concatStrings (lib.strings.intersperse "\n" ([
-  #     "source ${inputs.theme-bobthefish}/functions/fish_prompt.fish"
-  #     "source ${inputs.theme-bobthefish}/functions/fish_right_prompt.fish"
-  #     "source ${inputs.theme-bobthefish}/functions/fish_title.fish"
-  #     (builtins.readFile ./config.fish)
-  #     "set -g SHELL ${pkgs.fish}/bin/fish"
-  #   ]));
-
-  #   plugins = map (n: {
-  #     name = n;
-  #     src  = inputs.${n};
-  #   }) [
-  #     "fish-fzf"
-  #     "fish-foreign-env"
-  #     "theme-bobthefish"
-  #   ];
-  # };
-
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -221,22 +201,7 @@ in {
 
     defaultKeymap = "viins";
 
-    shellAliases = {
-      j = "just";
-      ls = "exa";
-      ll = "exa -l --header";
-      la = "exa -a";
-      lt = "exa --tree";
-      lla = "exa -la --header";
-      ".." = "cd ..";
-      rdme-glow = "glow -p https://github.com/charmbracelet/glow";
-      rdme-git-extras = "glow -p https://github.com/tj/git-extras/blob/master/Commands.md";
-      rdme-just = "glow -p https://raw.githubusercontent.com/casey/just/master/README.adoc";
-
-    #  sg = "BROWSER=w3m ddgr --unsafe --noua \!g ";
-    #  ssg = "ddgr --unsafe --noua \!g ";
-    #  sd = "BROWSER=w3m ddgr --unsafe --noua ";
-    };
+    shellAliases = shellAliases;
 
     initExtra = "
     # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -285,7 +250,7 @@ in {
       enable = true;
 
       plugins = [
-        "git ripgrep tig ssh-agent"
+        "git tig ssh-agent"
       ];
     };
 
@@ -305,8 +270,8 @@ in {
 
   programs.git = {
     enable = true;
-    userName = "Jono Chang";
-    userEmail = "j.g.chang@gmail.com";
+    userName = "Simon Hudson";
+    userEmail = "simon.hudson@silverpond.com.au";
     # signing = {
     #   key = "523D5DC389D273BC";
     #   signByDefault = true;
@@ -321,7 +286,7 @@ in {
       color.ui = true;
       core.askPass = ""; # needs to be empty to use terminal for ask pass
       credential.helper = "store"; # want to make this more secure
-      github.user = "jonochang";
+      github.user = "simon";
       push.default = "tracking";
       init.defaultBranch = "main";
     };
@@ -330,37 +295,11 @@ in {
   programs.go = {
     enable = true;
     goPath = "code/go";
-    goPrivate = [ "github.com/jonochang" ];
+    goPrivate = [ "github.com/simon" ];
   };
 
   programs.jujutsu = {
     enable = true;
-
-    # I don't use "settings" because the path is wrong on macOS at
-    # the time of writing this.
-  };
-
-  # programs.alacritty = {
-  #   enable = !isWSL;
-
-  #   settings = {
-  #     env.TERM = "xterm-256color";
-
-  #     key_bindings = [
-  #       { key = "K"; mods = "Command"; chars = "ClearHistory"; }
-  #       { key = "V"; mods = "Command"; action = "Paste"; }
-  #       { key = "C"; mods = "Command"; action = "Copy"; }
-  #       { key = "Key0"; mods = "Command"; action = "ResetFontSize"; }
-  #       { key = "Equals"; mods = "Command"; action = "IncreaseFontSize"; }
-  #       { key = "Subtract"; mods = "Command"; action = "DecreaseFontSize"; }
-  #     ];
-  #   };
-  # };
-
-  # programs.kitty = {
-  #   enable = !isWSL;
-  #   extraConfig = builtins.readFile ./kitty;
-  # };
 
   programs.i3status = {
     enable = isLinux && !isWSL;
@@ -379,31 +318,37 @@ in {
     };
   };
 
-  # programs.neovim = {
-  #   enable = true;
-  #   package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
-  # };
+  programs.tmux = {
+    enable = true;
 
-  # programs.atuin = {
-  #   enable = true;
-  # };
+    # Basic settings
+    clock24 = true;
+    baseIndex = 1;
+    keyMode = "vi";
+    mouse = true;
+    terminal = "screen-256color";
 
-  # programs.nushell = {
-  #   enable = true;
-  # };
+    # Custom configuration
+    extraConfig = ''
+      set-option -g history-limit 10000
 
-  # programs.oh-my-posh = {
-  #   enable = true;
-  # };
+      # Set prefix to Ctrl-Space instead of Ctrl-b
+      unbind C-b
+      set -g prefix C-Space
+      bind Space send-prefix
 
-  # services.gpg-agent = {
-  #   enable = isLinux;
-  #   pinentry.package = pkgs.pinentry-tty;
+      setw -g mode-keys vi
+      set-option -sg escape-time 10
 
-  #   # cache the keys forever so we don't get asked for a password
-  #   defaultCacheTtl = 31536000;
-  #   maxCacheTtl = 31536000;
-  # };
+      set -g @plugin 'tmux-plugins/tpm'
+      set -g @plugin 'tmux-plugins/tmux-sensible'
+      set -g @plugin 'tmux-plugins/tmux-resurrect'
+      set -g @resurrect-strategy-nvim 'session'
+
+      # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+      run '~/.tmux/plugins/tpm/tpm'
+    '';
+  };
 
   xresources.extraConfig = builtins.readFile ./Xresources;
 
