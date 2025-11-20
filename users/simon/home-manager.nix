@@ -1,56 +1,76 @@
 { isWSL, inputs, ... }:
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   sources = import ../../nix/sources.nix;
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
   shellAliases = {
-    ll="ls -alF";
-    gs="git status";
-    ga="git add";
-    t="tmux";
-    gb="git branch";
-    gd="git diff";
-    gl="git log";
-    gf="git fetch";
-    gpl="git pull";
-    gps="git push";
-    gc="git commit";
-    gcm="git commit -m";
-    gco="git checkout";
-    gtg="git tag";
-    gst="git stash";
-    gsta="git stash apply";
-    gstp="git stash pop";
-    grb="git rebase";
-    grst="git restore --staged";
-    nv="nvim";
-    vim="nvim";
-    are="ssh t-ares";
-    art="ssh t-artemis";
-    ze="ssh t-zeus";
-    ath="ssh t-athena";
-    di="ssh t-dionysus";
-    ns="nix-shell";
-    hlr="hl-run";
-    hlrs="hl-run rails s";
-  } // (if isLinux then {
-    # Two decades of using a Mac has made this such a strong memory
-    # that I'm just going to keep it consistent.
-    pbcopy = "xclip";
-    pbpaste = "xclip -o";
-  } else {});
+    ll = "ls -alF";
+    gs = "git status";
+    ga = "git add";
+    t = "tmux";
+    gb = "git branch";
+    gd = "git diff";
+    gl = "git log";
+    gf = "git fetch";
+    gpl = "git pull";
+    gps = "git push";
+    gc = "git commit";
+    gcm = "git commit -m";
+    gco = "git checkout";
+    gtg = "git tag";
+    gst = "git stash";
+    gsta = "git stash apply";
+    gstp = "git stash pop";
+    grb = "git rebase";
+    grs = "git restore";
+    grst = "git restore --staged";
+    nv = "nvim";
+    vim = "nvim";
+    are = "ssh t-ares";
+    art = "ssh t-artemis";
+    ze = "ssh t-zeus";
+    ath = "ssh t-athena";
+    di = "ssh t-dionysus";
+    ns = "nix-shell";
+    hlr = "hl-run";
+    hlrs = "hl-run rails s";
+  }
+  // (
+    if isLinux then
+      {
+        # Two decades of using a Mac has made this such a strong memory
+        # that I'm just going to keep it consistent.
+        pbcopy = "xclip";
+        pbpaste = "xclip -o";
+      }
+    else
+      { }
+  );
 
   # For our MANPAGER env var
   # https://github.com/sharkdp/bat/issues/1145
-  manpager = (pkgs.writeShellScriptBin "manpager" (if isDarwin then ''
-    sh -c 'col -bx | bat -l man -p'
-    '' else ''
-    cat "$1" | col -bx | bat --language man --style plain
-  ''));
-in {
+  manpager = (
+    pkgs.writeShellScriptBin "manpager" (
+      if isDarwin then
+        ''
+          sh -c 'col -bx | bat -l man -p'
+        ''
+      else
+        ''
+          cat "$1" | col -bx | bat --language man --style plain
+        ''
+    )
+  );
+in
+{
   # Home-manager 22.11 requires this be set. We never set it so we have
   # to use the old state version.
   home.stateVersion = "18.09";
@@ -126,7 +146,8 @@ in {
     # This is automatically setup on Linux
     pkgs.cachix
     pkgs.tailscale
-  ]) ++ (lib.optionals (isLinux && !isWSL) [
+  ])
+  ++ (lib.optionals (isLinux && !isWSL) [
     pkgs.chromium
     pkgs.firefox
     pkgs.rofi
@@ -149,10 +170,16 @@ in {
 
     AMP_API_KEY = "op://Private/Amp_API/credential";
     OPENAI_API_KEY = "op://Private/OpenAPI_Personal/credential";
-  } // (if isDarwin then {
-    # See: https://github.com/NixOS/nixpkgs/issues/390751
-    DISPLAY = "nixpkgs-390751";
-  } else {});
+  }
+  // (
+    if isDarwin then
+      {
+        # See: https://github.com/NixOS/nixpkgs/issues/390751
+        DISPLAY = "nixpkgs-390751";
+      }
+    else
+      { }
+  );
 
   home.file = {
     ".gdbinit".source = ./gdbinit;
@@ -162,12 +189,24 @@ in {
   xdg.configFile = {
     "i3/config".text = builtins.readFile ./i3;
     "rofi/config.rasi".text = builtins.readFile ./rofi;
-  } // (if isDarwin then {
-    # Rectangle.app. This has to be imported manually using the app.
-    "rectangle/RectangleConfig.json".text = builtins.readFile ./RectangleConfig.json;
-  } else {}) // (if isLinux then {
-    "ghostty/config".text = builtins.readFile ./ghostty.linux;
-  } else {});
+  }
+  // (
+    if isDarwin then
+      {
+        # Rectangle.app. This has to be imported manually using the app.
+        "rectangle/RectangleConfig.json".text = builtins.readFile ./RectangleConfig.json;
+      }
+    else
+      { }
+  )
+  // (
+    if isLinux then
+      {
+        "ghostty/config".text = builtins.readFile ./ghostty.linux;
+      }
+    else
+      { }
+  );
 
   #---------------------------------------------------------------------
   # Programs
@@ -177,8 +216,11 @@ in {
 
   programs.bash = {
     enable = true;
-    shellOptions = [];
-    historyControl = [ "ignoredups" "ignorespace" ];
+    shellOptions = [ ];
+    historyControl = [
+      "ignoredups"
+      "ignorespace"
+    ];
     initExtra = builtins.readFile ./bashrc;
     shellAliases = shellAliases;
   };
@@ -300,6 +342,7 @@ in {
 
   programs.jujutsu = {
     enable = true;
+  };
 
   programs.i3status = {
     enable = isLinux && !isWSL;
