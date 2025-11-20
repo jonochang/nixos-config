@@ -94,6 +94,13 @@ in
   # per-project flakes sourced with direnv and nix-shell, so this is
   # not a huge list.
   home.packages = [
+    (pkgs.python3.withPackages (
+      ps: with ps; [
+        pip
+        virtualenv
+        # Add other Python packages here
+      ]
+    ))
     pkgs.awscli2
     pkgs.awsebcli
 
@@ -142,7 +149,18 @@ in
 
     # Node is required for Copilot.vim
     pkgs.nodejs
-  ] ++ (lib.optionals isDarwin [
+
+    pkgs.solargraph
+    pkgs.nil
+    pkgs.lua-language-server
+    pkgs.pyright
+    pkgs.typescript-language-server
+    pkgs.golangci-lint-langserver
+    pkgs.superhtml
+    pkgs.pyrefly
+    pkgs.zls
+  ]
+  ++ (lib.optionals isDarwin [
     # This is automatically setup on Linux
     pkgs.cachix
     pkgs.tailscale
