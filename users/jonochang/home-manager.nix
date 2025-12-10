@@ -22,6 +22,8 @@ let
     jn = "jj new";
     jp = "jj git push";
     js = "jj st";
+
+    gh-rerun-failed = "gh run rerun $(gh run list --branch $(git rev-parse --abbrev-ref HEAD) --status failure --limit 1 --json databaseId --jq '.[0].databaseId') --failed";
   } // (if isLinux then {
     # Two decades of using a Mac has made this such a strong memory
     # that I'm just going to keep it consistent.
@@ -103,6 +105,7 @@ in {
     pkgs.codex
 
     pkgs.git-absorb
+    pkgs.git-trim
 
     # Node is required for Copilot.vim
     pkgs.nodejs

@@ -12,6 +12,7 @@
     services.xserver = {
       enable = true;
       xkb.layout = "us";
+      xkb.variant = "";
       dpi = 220;
 
       resolutions = [
