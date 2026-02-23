@@ -138,6 +138,11 @@ in {
 
     AMP_API_KEY = "op://Private/Amp_API/credential";
     OPENAI_API_KEY = "op://Private/OpenAPI_Personal/credential";
+
+    # Claude Code rate limit timers
+    CLAUDE_5H_RESET = "10:00";
+    CLAUDE_TZ = "Australia/Melbourne";
+    CLAUDE_WK_RESET = "2026-02-16 10:59";
   } // (if isDarwin then {
     # See: https://github.com/NixOS/nixpkgs/issues/390751
     DISPLAY = "nixpkgs-390751";
@@ -151,6 +156,25 @@ in {
   xdg.configFile = {
     "i3/config".text = builtins.readFile ./i3;
     "rofi/config.rasi".text = builtins.readFile ./rofi;
+
+    # Claude Code permissions
+    "claude-code/settings.json".text = builtins.toJSON {
+      permissions = {
+        allow = [
+          "Bash(git status)"
+          "Bash(git diff:*)"
+          "Bash(npm test:*)"
+        ];
+        ask = [
+          "Bash(git push:*)"
+        ];
+        deny = [
+          "Bash(curl:*)"
+          "Read(./.env)"
+          "Read(./secrets/**)"
+        ];
+      };
+    };
   } // (if isDarwin then {
     # Rectangle.app. This has to be imported manually using the app.
     "rectangle/RectangleConfig.json".text = builtins.readFile ./RectangleConfig.json;
