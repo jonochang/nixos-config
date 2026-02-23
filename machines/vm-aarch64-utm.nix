@@ -4,8 +4,18 @@
     ./vm-shared.nix
   ];
 
+  networking.useNetworkd = true;
+
   # Interface is this on my M1
-  networking.interfaces.enp0s10.useDHCP = true;
+  systemd.network.networks."10-enp0s10" = {
+    matchConfig.Name = "enp0s10";
+    networkConfig.DHCP = "yes";
+    dhcpV4Config.UseDNS = false;
+    dhcpV6Config.UseDNS = false;
+  };
+
+  # Use our preferred DNS
+  services.resolved.enable = true;
 
   # Qemu
   services.spice-vdagentd.enable = true;

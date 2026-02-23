@@ -7,8 +7,18 @@
   # Setup qemu so we can run x86_64 binaries
   boot.binfmt.emulatedSystems = ["x86_64-linux"];
 
+  networking.useNetworkd = true;
+
   # Interface is this on M1
-  networking.interfaces.ens160.useDHCP = true;
+  systemd.network.networks."10-ens160" = {
+    matchConfig.Name = "ens160";
+    networkConfig.DHCP = "yes";
+    dhcpV4Config.UseDNS = false;
+    dhcpV6Config.UseDNS = false;
+  };
+
+  # Use our preferred DNS
+  services.resolved.enable = true;
 
   # Lots of stuff that uses aarch64 that claims doesn't work, but actually works.
   nixpkgs.config.allowUnfree = true;
