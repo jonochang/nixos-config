@@ -13,7 +13,7 @@
   users.users.jonochang = {
     isNormalUser = true;
     home = "/home/jonochang";
-    extraGroups = [ "docker" "lxd" "wheel" ];
+    extraGroups = [ "docker" "lxd" "wheel" "ydotool" ];
     shell = pkgs.zsh;
     hashedPassword = "$6$wU04qVoXnnAsStf5$I0LYbQUbacScbFdvZDPif5zu2/.xAUQAhAE7.qLa6HUdeG4sVjIBW9bzYuL0SVfAFFQiYh37DSDkqY3t/jKs/0";
     openssh.authorizedKeys.keys = [

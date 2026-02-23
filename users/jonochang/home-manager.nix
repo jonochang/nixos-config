@@ -54,9 +54,11 @@ in {
   #---------------------------------------------------------------------
   # Packages
   #---------------------------------------------------------------------
-  imports = [
-    ./neovim.nix
-  ];
+  # imports = [
+  #   ./neovim.nix
+  # ];
+
+  imports = [ inputs.voxput.homeManagerModules.default ];
 
   # Packages I always want installed. Most packages I install using
   # per-project flakes sourced with direnv and nix-shell, so this is
@@ -407,6 +409,20 @@ in {
   #   defaultCacheTtl = 31536000;
   #   maxCacheTtl = 31536000;
   # };
+
+  services.voxput = {
+    enable = true;
+    gnome = {
+      enable           = true;
+      shortcut         = [ "<Super>d" ];
+      showNotification = true;         
+      autoPaste = true;
+    };
+  };
+
+  programs.gnome-shell.extensions = [
+    { package = config.services.voxput.gnome.package; }
+  ];
 
   xresources.extraConfig = builtins.readFile ./Xresources;
 

@@ -85,6 +85,9 @@
   # out or delete all of this.
   services.tailscale.enable = true;
 
+  # Enable ydotool for input automation
+  programs.ydotool.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.mutableUsers = false;
 
