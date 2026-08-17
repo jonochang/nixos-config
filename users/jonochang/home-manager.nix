@@ -4,8 +4,8 @@
 
 let
   sources = import ../../nix/sources.nix;
-  isDarwin = pkgs.stdenv.isDarwin;
-  isLinux = pkgs.stdenv.isLinux;
+  isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
+  isLinux = pkgs.stdenv.hostPlatform.isLinux;
   shellAliases = {
     ga = "git add";
     gc = "git commit";
@@ -121,7 +121,7 @@ in {
     pkgs.rofi
     pkgs.valgrind
     pkgs.zathura
-    pkgs.xfce.xfce4-terminal
+    pkgs.xfce4-terminal
   ]);
 
   #---------------------------------------------------------------------
@@ -234,6 +234,8 @@ in {
 
   programs.zsh = {
     enable = true;
+    # Keep the existing ~/.zshrc location when the default changes.
+    dotDir = config.home.homeDirectory;
     enableCompletion = true;
     autosuggestion = {
       enable = true;
@@ -267,7 +269,7 @@ in {
     #  sd = "BROWSER=w3m ddgr --unsafe --noua ";
     };
 
-    initExtra = "
+    initContent = "
     # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
     # Initialization code that may require console input (password prompts, [y/n]
     # confirmations, etc.) must go above this block; everything else may go below.
@@ -334,18 +336,20 @@ in {
 
   programs.git = {
     enable = true;
-    userName = "Jono Chang";
-    userEmail = "j.g.chang@gmail.com";
-    # signing = {
-    #   key = "523D5DC389D273BC";
-    #   signByDefault = true;
-    # };
-    aliases = {
-      cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 -r git branch -d";
-      prettylog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(r) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
-      root = "rev-parse --show-toplevel";
-    };
-    extraConfig = {
+    settings = {
+      user = {
+        name = "Jono Chang";
+        email = "j.g.chang@gmail.com";
+      };
+      # signing = {
+      #   key = "523D5DC389D273BC";
+      #   signByDefault = true;
+      # };
+      alias = {
+        cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 -r git branch -d";
+        prettylog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(r) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
+        root = "rev-parse --show-toplevel";
+      };
       branch.autosetuprebase = "always";
       color.ui = true;
       core.askPass = ""; # needs to be empty to use terminal for ask pass
@@ -358,8 +362,10 @@ in {
 
   programs.go = {
     enable = true;
-    goPath = "code/go";
-    goPrivate = [ "github.com/jonochang" ];
+    env = {
+      GOPATH = [ "${config.home.homeDirectory}/code/go" ];
+      GOPRIVATE = [ "github.com/jonochang" ];
+    };
   };
 
   programs.jujutsu = {

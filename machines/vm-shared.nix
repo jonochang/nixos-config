@@ -143,15 +143,14 @@
     xkb.layout = "us";
     dpi = 220;
     
-    displayManager = {
-      defaultSession = "none+i3";
-      lightdm.enable = true;
-    };
+    displayManager.lightdm.enable = true;
     
     windowManager = {
       i3.enable = true;
     };
   };
+
+  services.displayManager.defaultSession = lib.mkIf (config.specialisation != {}) "none+i3";
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
