@@ -45,6 +45,8 @@
   networking.hostName = "dev";
   networking.nameservers = [ "1.1.1.1" "1.0.0.1" ];
 
+  programs.dconf.enable = true;
+
   # Set your time zone.
   time.timeZone = "Australia/Melbourne";
 

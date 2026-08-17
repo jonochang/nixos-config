@@ -32,6 +32,7 @@
     fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
     device = ".host:/";
     options = [
+      "nofail"
       "umask=22"
       "uid=1000"
       "gid=1000"
