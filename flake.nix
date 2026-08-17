@@ -10,9 +10,6 @@
     # Used to get ibus 1.5.29 which has some quirks we want to test.
     nixpkgs-old-ibus.url = "github:nixos/nixpkgs/e2dd4e18cc1c7314e24154331bae07df76eb582f";
 
-    # We use the unstable nixpkgs repo for some packages.
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-
     # Master nixpkgs is used for really bleeding edge packages. Warning
     # that this is extremely unstable and shouldn't be relied on. Its
     # mostly for testing.
@@ -68,20 +65,15 @@
       inputs.voxput.overlays.default
 
       (final: prev: rec {
-        # gh CLI on stable has bugs.
-        gh = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.gh;
+        gh = inputs.nixpkgs.legacyPackages.${prev.stdenv.hostPlatform.system}.gh;
 
-        # Want the latest version of these
-        claude-code = (import inputs.nixpkgs-unstable {
-          inherit (prev) system;
-          config.allowUnfree = true;
-        }).claude-code;
-        nushell = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nushell;
+        # Want the latest version of nushell
+        nushell = inputs.nixpkgs.legacyPackages.${prev.stdenv.hostPlatform.system}.nushell;
 
         ibus = ibus_stable;
-        ibus_stable = inputs.nixpkgs.legacyPackages.${prev.system}.ibus;
-        ibus_1_5_29 = inputs.nixpkgs-old-ibus.legacyPackages.${prev.system}.ibus;
-        ibus_1_5_31 = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.ibus;
+        ibus_stable = inputs.nixpkgs.legacyPackages.${prev.stdenv.hostPlatform.system}.ibus;
+        ibus_1_5_29 = inputs.nixpkgs-old-ibus.legacyPackages.${prev.stdenv.hostPlatform.system}.ibus;
+        ibus_current = inputs.nixpkgs.legacyPackages.${prev.stdenv.hostPlatform.system}.ibus;
       })
     ];
 
