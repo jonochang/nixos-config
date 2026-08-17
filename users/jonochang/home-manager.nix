@@ -102,9 +102,9 @@ in {
     #    "claude-code"
     #  ];
     #}
-    pkgs.claude-code
-    pkgs.gemini-cli
-    pkgs.codex
+    # LLM agent tools (claude-code, gemini-cli, codex) are now installed
+    # as pre-built binaries (npm/installers) to avoid pulling in a Rust
+    # toolchain via nixpkgs. See PREBUILT_PLAN.md.
 
     pkgs.git-absorb
     pkgs.git-trim
