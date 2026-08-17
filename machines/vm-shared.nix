@@ -50,6 +50,7 @@
 
   nix.gc.automatic = true;
   nix.gc.dates = "weekly";
+  nix.gc.options = "--delete-older-than 30d";
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
