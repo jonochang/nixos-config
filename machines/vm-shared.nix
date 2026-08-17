@@ -89,6 +89,20 @@
   # Enable ydotool for input automation
   programs.ydotool.enable = true;
 
+  # Allow running pre-built (non-Nix) dynamically-linked binaries by
+  # providing a standard glibc interpreter via /lib64/ld-linux-*.
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      zlib
+      openssl
+      stdenv.cc.cc.lib # libstdc++
+    ];
+  };
+
+  # Cap journal size to keep /var from growing unbounded.
+  services.journald.extraConfig = "SystemMaxUse=200M";
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.mutableUsers = false;
 
